@@ -10,9 +10,11 @@ Once you have API keys, please remove the .example from haven.example.js and twi
 
 Once you have those two files setup, run npm install to get all the required packages.
 
+Create a database called mysql
+
 Then run 
 ```javascript
-npm start server
+npm run server
 ```
 to start up your local express server.  From there, run 
 ```javascript
