@@ -11,7 +11,7 @@ var getSentimentAsync = Promise.promisify(havenUtil.getSentiment, {context: have
 module.exports = {
   getAnalysis: function(req, res, next) {
     // Using hardcoded twitter handle for testing purposes, default currently pulls 5 most recent tweets
-    var twitterHandle = req.query.handle || 'TweetsByTutt';
+    var twitterHandle = req.params.handle || 'TweetsByTutt';
     var currentUser = req.params.user || 'RipplMaster';
     var globaldata, globaltweetData, globalsentiment, globaluser;
     
