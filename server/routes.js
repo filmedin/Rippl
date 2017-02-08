@@ -6,7 +6,7 @@ module.exports = function(app, express) {
   app.get('/oauth', controller.getAccessToken);
   app.get('/rippl/user/:username', controller.getUserScores);
   app.get('/testuser', controller.createTestUser);
-
+  app.get('/geo', controller.getSearchTweets);
   app.get('/home', function(req, res) {
     console.log('here');
     req.session.regenerate(function(err) {

@@ -17,6 +17,7 @@ var twtrGetReqTokenAsync = Promise.promisify(twitter.getRequestToken, {context: 
 var twtrGetAccessTokenAsync = Promise.promisify(twitter.getAccessToken, {context: twitter, multiArgs: true});
 var twtrVerifyCredentialsAsync = Promise.promisify(twitter.verifyCredentials, {context: twitter, multiArgs: true});
 var twtrGetTimelineAsync = Promise.promisify(twitter.getTimeline, {context: twitter, multiArgs: true});
+var twtrGetRecentGeoTweets = Promise.promisify(twitter.search, {context: twitter, multiArgs: true});
 
 module.exports = {
   getTweets: function(username, callback) {
@@ -31,6 +32,25 @@ module.exports = {
       callback(err);
     });
 
+  },
+
+  getSearchTweets: function(username, cb) {
+    //bullhead az 35.1359,-114.5286
+    //35.8541,-100.8903,50km
+    let accessToken = twitter.accessToken;
+    let accessTokenSecret = twitter.accessTokenSecret;
+    twtrGetRecentGeoTweets({q: '@BarackObama','geocode': '37.773972,-122.431297,10km', count: 100}, accessToken, accessTokenSecret)
+    .spread((data, response) => {
+      // console.log('getSearchTweets data', data);
+      // console.log('getSearchTweets response', response);
+      cb(data, response);
+      // res.send(data);
+    })
+    .catch((err) => {
+      console.error('Timeline retrieval error ', err);
+      cb(err);
+      // res.end();
+    });
   },
 
   getRequestToken: function(req, res) {
@@ -102,3 +122,4 @@ module.exports = {
 
   twitter: twitter
 };
+
