@@ -7,6 +7,7 @@ var {User} = require('../db/index.js');
 
 var getTweetsAsync = Promise.promisify(twitterUtil.getTweets, {context: twitterUtil, multiArgs: true});
 var getSentimentAsync = Promise.promisify(havenUtil.getSentiment, {context: havenUtil});
+var getSearchTweetsAsync = Promise.promisify(twitterUtil.getSearchTweets, {context: twitterUtil, multiArgs: true});
 
 module.exports = {
   getAnalysis: function(req, res, next) {
@@ -61,6 +62,21 @@ module.exports = {
     twitterUtil.getAccessToken(req, res, oAuthVerifier);
   },
 
+  getSearchTweets: function(req, res, next) {
+      getSearchTweetsAsync('abc', data => {
+        var tweetString = twitterUtil.getTweetString(data.statuses).string;
+        console.log('index getSearchTweets', tweetString);
+        console.log('total tweets', data.statuses.length);
+
+
+        getSentimentAsync('', tweetString).then(data => {
+          console.log('$$$$$$#####', data);
+        });
+
+
+        res.send(data);    
+    });
+  },
   getUserScores: function(req, res, next) {
     console.log('Username param: ' + req.params.username);
     let username = req.params.username || 'RipplMaster';
