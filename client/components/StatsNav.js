@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import StatSpinner from './StatSpinner.js'
-import {View, TextInput, Text} from 'react-native';
+import {View, TextInput, Text, StyleSheet} from 'react-native';
 import Button from 'react-native-button';
 
 class StatsNav extends React.Component{
@@ -8,29 +8,22 @@ class StatsNav extends React.Component{
   	super(props);
 
   }
-
-  // Handles click on Get User Button
-  handleClick() {
-    this.props.getUserClick();
-    console.log('handleclick');
-  }
-
   render(){
     
   	return(
       <View >
-        <Text style={{textAlign:'center', fontSize:30, color:'white', textShadowColor:'black', textShadowRadius:2, backgroundColor:'black'}}>{this.props.location}</Text>
+        <Text style={styles.title}>{this.props.location}</Text>
         {this.props.bodyView === 'user' ? (
-          <View style={{flexDirection:'row', flexWrap:'wrap', borderColor:'black', borderWidth: 1, backgroundColor:'black'}}>
-            <Text style={{height: 30, fontSize:20, top: 5, color:'white', left: 5}}>@</Text>
+          <View style={styles.container}>
+            <Text style={styles.preHandle}>@</Text>
             <TextInput
-                style={{width: 340, height: 45, fontSize: 15, textAlignVertical: 'top', color:'white', left: 5}}
+                style={styles.handle}
                 placeholder=" Enter a Twitter Handle!"
                 onChangeText={this.props.formChange}
                 value = {this.props.formVal}
               />
-              <Button style={{fontSize: 22, color: 'green', top: 5, left: 5, width: 40}}
-                onPress={this.handleClick.bind(this)}
+              <Button style={styles.handleSubmit}
+                onPress={this.props.getUserClick}
                 accessibilityLabel="Get User">🔍
               </Button>
           </View>) : (<View/>)}
@@ -40,7 +33,45 @@ class StatsNav extends React.Component{
 }
 
 export default StatsNav;
-
+var styles = StyleSheet.create({
+  title: {
+    textAlign:'center', 
+    fontSize:30, 
+    color:'white', 
+    textShadowColor:'black', 
+    textShadowRadius:2, 
+    backgroundColor:'black'
+  },
+  container: {
+    flexDirection:'row', 
+    flexWrap:'wrap', 
+    borderColor:'black', 
+    borderWidth: 1, 
+    backgroundColor:'black'
+  },
+  preHandle: {
+    height: 30, 
+    fontSize:20, 
+    top: 5, 
+    color:'white', 
+    left: 5
+  },
+  handle: {
+    width: 340, 
+    height: 45, 
+    fontSize: 15, 
+    textAlignVertical: 'top', 
+    color:'white', 
+    left: 5
+  },
+  handleSubmit: {
+    fontSize: 22, 
+    color: 'green', 
+    top: 5, 
+    left: 5, 
+    width: 40
+  }
+});
 // <Navbar right>
      //    <NavItem href='/'>
      //      <img src="../img/rippl-sml.png" className="brand-logo right ripplnav"/>

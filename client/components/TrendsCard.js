@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import StatsBox from './StatsBox.js'
 import {View, Text, Linking, TouchableHighlight, StyleSheet} from 'react-native';
 
 

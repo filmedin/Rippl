@@ -14,10 +14,9 @@ import {
 import Swiper from 'react-native-swiper';
 import StatsNav from './components/StatsNav.js';
 import StatsBody from './components/StatsBody.js';
-import StatsFoot from './components/StatsFoot.js';
-import StatSpinner from './components/StatSpinner.js';
 import UserStat from './components/UserStat.js';
 import TrendStat from './components/TrendStat.js';
+import Tabs from 'react-native-tabs';
 
 export default class client extends Component {
 
@@ -141,24 +140,31 @@ export default class client extends Component {
   render() {
     return (
       <View>
-      {
-        (this.state.pageView === 'home') ? (
-        <Swiper style={styles.wrapper} loop={true}>
-          {location.map((loc) => {
-            return (
-            <View key={loc.id}>
-              <StatsNav bodyView={this.state.bodyView} location={loc.name} error={this.state.error} spinner={this.state.spinner} formVal={this.state.query} getUserClick={this.queryUser} formChange={this.handleChange}/>
-              <StatsBody bodyView={this.state.bodyView} changeBody={this.changeBody} changeUser={this.changeUser} changeTrend={this.changeTrend} list={this.state.list}/>
-            </View>
-            )
-          })}
-        </Swiper>
-        ) : (this.state.pageView === 'home') ? (
-          <UserStat clickedUser={this.state.clickedUser} goHome={this.goHome}/>
-        ) : (
-          <TrendStat clickedTrend={this.state.clickedTrend} goHome={this.goHome}/>
-        )
-      }
+        {
+          (this.state.pageView === 'home') ? (
+          <Swiper height={650} loop={true}>
+            {location.map((loc) => {
+              return (
+              <View key={loc.id}>
+                <StatsNav bodyView={this.state.bodyView} location={loc.name} error={this.state.error} spinner={this.state.spinner} formVal={this.state.query} getUserClick={this.queryUser} formChange={this.handleChange}/>
+                <StatsBody bodyView={this.state.bodyView} changeBody={this.changeBody} changeUser={this.changeUser} changeTrend={this.changeTrend} list={this.state.list}/>
+              </View>
+              )
+            })}
+          </Swiper>
+          ) : (this.state.pageView === 'user') ? (
+            <UserStat clickedUser={this.state.clickedUser} goHome={this.goHome}/>
+          ) : (
+            <TrendStat clickedTrend={this.state.clickedTrend} goHome={this.goHome}/>
+          )
+        }
+        <View style={styles.container}>
+          <Tabs selected={this.state.bodyView} style={{backgroundColor:'black', height: 30, marginTop: 30}}
+                selectedStyle={{fontWeight:'bold', fontSize:20}} onSelect={el=>this.changeBody(el.props.name)}>
+              <Text name="user" style={{color:'white'}}>User</Text>
+              <Text name="trend" style={{color:'white'}}>Trend</Text>
+          </Tabs>
+        </View>
 
       </View>
     );
@@ -166,30 +172,11 @@ export default class client extends Component {
 }
 var location = [{id: 0, name: 'Worldwide'},{id: 1, name: 'San Francisco'},{id: 2, name: 'Toronto'},{id: 3, name: 'New York'},{id: 4, name: 'Chicago'},{id: 5, name: 'Austin'}];
 var styles = StyleSheet.create({
-  wrapper: {
-  },
-  slide1: {
+  container: {
     flex: 1,
+    marginTop: 10,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#9DD6EB',
-  },
-  slide2: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#97CAE5',
-  },
-  slide3: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#92BBD9',
-  },
-  text: {
-    color: '#fff',
-    fontSize: 30,
-    fontWeight: 'bold',
+    alignItems: 'center'
   }
 })
 
