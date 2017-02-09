@@ -23,8 +23,8 @@ module.exports = {
     // Using hardcoded twitter handle for testing purposes, default currently pulls 5 most recent tweets
     var twitterHandle = req.params.handle || 'TweetsByTutt';
     var currentUser = req.params.user || 'RipplMaster';
-    var location = req.params.location;
-    var globaldata, globaltweetData, globalsentiment, globaluser;
+    // var location = req.params.location;
+    var globalTweets, globalTweetStrings, globalsentiment, globaluser;
 
     var geocodesIn = [
       {city:'Worldwide', geocode: ''},
@@ -52,9 +52,9 @@ module.exports = {
     }
 
     Promise.all(promises).then(values => {
-      var globalTweets = values;
-      // console.log('%%%%%', values[0][0].statuses.length)
-        var globalTweetStrings = globalTweets.map(location => {
+      globalTweets = values;
+
+        globalTweetStrings = globalTweets.map(location => {
           return twitterUtil.getTweetString(location[0].statuses);
         })
         var sentimentPromises = globalTweetStrings.map((location, index) => {
@@ -63,19 +63,39 @@ module.exports = {
         return Promise.all(sentimentPromises);
       })
       .then(sentiments => {
-        // console.log('@@@@', sentiments)
+        Score.destroy({
+          where: {
+            twitterHandle: twitterHandle
+          }
+        });
+
+        var serverResponse = [];
         for (var k = 0; k < geocodesIn.length; k++) {
-          Score.create({
+          var dbInput = {
             twitterHandle: twitterHandle,
             numTweets: globalTweets[k][0].statuses.length,
-            tweetText: globalTweetStrings[k].text,
+            tweetText: globalTweetStrings[k].string,
             sentimentScore: sentiments[k],
             retweetCount: globalTweetStrings[k].retweetCount,
             favoriteCount: globalTweetStrings[k].favoriteCount,
             locationId: k
-          })
+          }
+          Score.create(dbInput)
+          serverResponse.push(dbInput)
+
+
+          // Score.create({
+          //   twitterHandle: twitterHandle,
+          //   numTweets: globalTweets[k][0].statuses.length,
+          //   tweetText: globalTweetStrings[k].text,
+          //   sentimentScore: sentiments[k],
+          //   retweetCount: globalTweetStrings[k].retweetCount,
+          //   favoriteCount: globalTweetStrings[k].favoriteCount,
+          //   locationId: k
+          // })
         }
-        res.end()
+        res.send(JSON.stringify(serverResponse));
+        // res.end()
       })
 
 // %%% [ [ { statuses: [Object], search_metadata: [Object] },

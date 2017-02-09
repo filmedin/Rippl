@@ -2,7 +2,7 @@ var controller = require('./controllers');
 
 module.exports = function(app, express) {
 
-  app.get('/analyze/handle/:handle/location/:location', controller.getAnalysis);
+  app.get('/analyze/handle/:handle', controller.getAnalysis);
   // app.get('/updateTrends', controller.updateTrends);
   app.get('/updateLocation/:locationId', controller.updateLocation);
 
