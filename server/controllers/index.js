@@ -4,6 +4,11 @@ var Promise = require('bluebird');
 
 var {Score} = require('../db/index.js');
 var {User} = require('../db/index.js');
+var {Handle} = require('../db/index.js');
+var queryString = require('query-string');
+
+
+
 
 var getTweetsAsync = Promise.promisify(twitterUtil.getTweets, {context: twitterUtil, multiArgs: true});
 var getSentimentAsync = Promise.promisify(havenUtil.getSentiment, {context: havenUtil});
@@ -11,43 +16,125 @@ var getSearchTweetsAsync = Promise.promisify(twitterUtil.getSearchTweets, {conte
 
 module.exports = {
   getAnalysis: function(req, res, next) {
+    //takes one user
+    //runs getSearchTweetAsync for each geocode
+    //promise.all(array of async calls).then(results run sentiment analysis)
+
     // Using hardcoded twitter handle for testing purposes, default currently pulls 5 most recent tweets
     var twitterHandle = req.params.handle || 'TweetsByTutt';
     var currentUser = req.params.user || 'RipplMaster';
-    var globaldata, globaltweetData, globalsentiment, globaluser;
-    
-    getTweetsAsync(twitterHandle)
-    .spread((data, response) => {
-      globaldata = data;
-      globaltweetData = twitterUtil.getTweetString(globaldata);
+    // var location = req.params.location;
+    var globalTweets, globalTweetStrings, globalsentiment, globaluser;
 
-      // Need to look into handling haven asynchronously
-      return getSentimentAsync(twitterHandle, globaltweetData.string);
-    })
-    .then((sentiment) => {
-      globalsentiment = sentiment;
-      console.log('response ==>', sentiment);
-      return User.findOne({username: currentUser});
-    })
-    .then(function(user) {
-      console.log('CREATING SCORE');
-      return Score.create({twitterHandle: twitterHandle,
-        numTweets: globaldata.length,
-        tweetText: globaltweetData.string,
-        sentimentScore: globalsentiment,
-        retweetCount: globaltweetData.retweetCount,
-        favoriteCount: globaltweetData.favoriteCount})
-        .then((newScore) => newScore.setUser(user.id)
-        .then((newScore) => newScore));
-    })
-    .then((newScore) => {
-      console.log('New score created!');
-      return res.status(200).json(newScore);
-    })
-    .catch((err) => {
-      console.error('Analysis error ', err);
-      return res.status(404).end();
-    });
+    var geocodesIn = [
+      {city:'Worldwide', geocode: ''},
+      {city:'San Francisco', geocode: '37.7749,-122.4194,50km'},
+      {city:'Toronto', geocode: '43.6532,-79.3832,50km'},
+      {city:'New York', geocode: '40.7128,-74.0059,50km'},
+      {city:'Chicago', geocode: '41.8781,-87.6298,50km'},
+      {city:'Austin', geocode: '30.2672,-97.7431,50km'}
+    ];
+
+    var geocodesOut = {
+      '': 'Worldwide',
+      '37.7749,-122.4194,50km': 'San Francisco',
+      '43.6532,-79.3832,50km': 'Toronto',
+      '40.7128,-74.0059,50km': 'New York',
+      '41.8781,-87.6298,50km': 'Chicago',
+      '30.2672,-97.7431,50km': 'Austin'
+    }
+
+////////
+    var promises = [];
+
+    for (var i = 0; i < geocodesIn.length; i++) {
+      promises.push(getSearchTweetsAsync(twitterHandle, geocodesIn[i].geocode));
+    }
+
+    Promise.all(promises).then(values => {
+      globalTweets = values;
+
+        globalTweetStrings = globalTweets.map(location => {
+          return twitterUtil.getTweetString(location[0].statuses);
+        })
+        var sentimentPromises = globalTweetStrings.map((location, index) => {
+          return getSentimentAsync(null, location.string);
+        })
+        return Promise.all(sentimentPromises);
+      })
+      .then(sentiments => {
+        Score.destroy({
+          where: {
+            twitterHandle: twitterHandle
+          }
+        });
+
+        var serverResponse = [];
+        for (var k = 0; k < geocodesIn.length; k++) {
+          var dbInput = {
+            twitterHandle: twitterHandle,
+            numTweets: globalTweets[k][0].statuses.length,
+            tweetText: globalTweetStrings[k].string,
+            sentimentScore: sentiments[k],
+            retweetCount: globalTweetStrings[k].retweetCount,
+            favoriteCount: globalTweetStrings[k].favoriteCount,
+            locationId: k
+          }
+          Score.create(dbInput)
+          serverResponse.push(dbInput)
+
+
+          // Score.create({
+          //   twitterHandle: twitterHandle,
+          //   numTweets: globalTweets[k][0].statuses.length,
+          //   tweetText: globalTweetStrings[k].text,
+          //   sentimentScore: sentiments[k],
+          //   retweetCount: globalTweetStrings[k].retweetCount,
+          //   favoriteCount: globalTweetStrings[k].favoriteCount,
+          //   locationId: k
+          // })
+        }
+        res.send(JSON.stringify(serverResponse));
+        // res.end()
+      })
+
+// %%% [ [ { statuses: [Object], search_metadata: [Object] },
+
+
+      //////
+
+    // getTweetsAsync(twitterHandle)
+    // .spread((data, response) => {
+    //   globaldata = data;
+    //   globaltweetData = twitterUtil.getTweetString(globaldata);
+    //   res.send(JSON.stringify(globaldata));
+    //   // Need to look into handling haven asynchronously
+    //   return getSentimentAsync(twitterHandle, globaltweetData.string);
+    // })
+    // .then((sentiment) => {
+    //   globalsentiment = sentiment;
+    //   console.log('response ==>', sentiment);
+    //   return User.findOne({username: currentUser});
+    // })
+    // .then(function(user) {
+    //   console.log('CREATING SCORE');
+      // return Score.create({twitterHandle: twitterHandle,
+      //   numTweets: globaldata.length,
+      //   tweetText: globaltweetData.string,
+      //   sentimentScore: globalsentiment,
+      //   retweetCount: globaltweetData.retweetCount,
+      //   favoriteCount: globaltweetData.favoriteCount})
+    //     .then((newScore) => newScore.setUser(user.id)
+    //     .then((newScore) => newScore));
+    // })
+    // .then((newScore) => {
+    //   console.log('New score created!');
+    //   return res.status(200).json(newScore);
+    // })
+    // .catch((err) => {
+    //   console.error('Analysis error ', err);
+    //   return res.status(404).end();
+    // });
   },
 
   getRequestToken: function(req, res, next) {
@@ -74,7 +161,7 @@ module.exports = {
         });
 
 
-        res.send(data);    
+        res.send(data);
     });
   },
   getUserScores: function(req, res, next) {
@@ -105,6 +192,13 @@ module.exports = {
       console.log('RipplMaster creation error');
       res.status(404).end();
     });
+  },
+
+  updateLocation: function(req, res, next) {
+    var location = req.params.locationId;
+
+
+
   }
 
 };

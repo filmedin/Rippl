@@ -1,7 +1,11 @@
 var controller = require('./controllers');
 
 module.exports = function(app, express) {
-  app.get('/analyze/:handle', controller.getAnalysis);
+
+  app.get('/analyze/handle/:handle', controller.getAnalysis);
+  // app.get('/updateTrends', controller.updateTrends);
+  app.get('/updateLocation/:locationId', controller.updateLocation);
+
   app.get('/verify', controller.getRequestToken);
   app.get('/oauth', controller.getAccessToken);
   app.get('/rippl/user/:username', controller.getUserScores);
@@ -30,6 +34,8 @@ module.exports = function(app, express) {
       res.status(200).end();
     });
   });
+
+  //new route to get twitter handle
 
   // app.post('/analyze', controller);
   // app.put('/analyze', controller);
