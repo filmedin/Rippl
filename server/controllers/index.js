@@ -22,7 +22,7 @@ module.exports = {
 
     // Using hardcoded twitter handle for testing purposes, default currently pulls 5 most recent tweets
     var twitterHandle = req.params.handle || 'TweetsByTutt';
-    var currentUser = req.params.user || 'RipplMaster';
+    
     // var location = req.params.location;
     var globalTweets, globalTweetStrings, globalsentiment, globaluser;
 
@@ -50,10 +50,10 @@ module.exports = {
     for (var i = 0; i < geocodesIn.length; i++) {
       promises.push(getSearchTweetsAsync(twitterHandle, geocodesIn[i].geocode));
     }
-
+    console.log('#####');
     Promise.all(promises).then(values => {
       globalTweets = values;
-
+      console.log('@@@@@@');
         globalTweetStrings = globalTweets.map(location => {
           return twitterUtil.getTweetString(location[0].statuses);
         })
@@ -63,6 +63,7 @@ module.exports = {
         return Promise.all(sentimentPromises);
       })
       .then(sentiments => {
+              console.log('!!!!!!!');
         Score.destroy({
           where: {
             twitterHandle: twitterHandle
@@ -164,15 +165,10 @@ module.exports = {
         res.send(data);
     });
   },
-  getUserScores: function(req, res, next) {
-    console.log('Username param: ' + req.params.username);
-    let username = req.params.username || 'RipplMaster';
-    console.log(username);
-    User.find({where: { username: username }})
-    .then(function(user) {
-      console.log('USER :', user);
-      return Score.findAll({UserId: user.id});
-    })
+  getScores: function(req, res, next) {
+    
+    let locationId = req.params.locationId || 0;
+    Score.findAll({locationId: locationId})
     .then(function(scores) {
       res.status(200).json(scores);
     })

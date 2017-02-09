@@ -70,11 +70,10 @@ class App extends Component {
   }
   // This function gets all the user data for user RipplMaster (default user),
   // stops the spinner animation, and if there is an error displays an error message.
-  getData() {
-  
+  getData(location) {
     var that = this;
     //10.0.3.2
-    fetch('http://10.6.20.226:8000/rippl/user/RipplMaster', {
+    fetch('http://10.6.20.226:8000/rippl/' + location, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -87,14 +86,12 @@ class App extends Component {
     .catch(err => {
       that.setState({error: true});
     });
-
-
   }
 
 
   // Gets the data on mounting
   componentWillMount(){
-    this.getData();
+    this.getData(0);
   }
 
   // Handles changes in the input tag
@@ -102,8 +99,7 @@ class App extends Component {
     this.setState({query: text});
   }
   onMomentumScrollEnd (e, state, context) {
-    console.log('#####',state.index);
-    this.getData();
+    this.getData(state.index);
     
 
   }
