@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize');
-var db = new Sequelize('rippl', 'root', '');
+var db = new Sequelize('rippl', 'root', 'abcd');
 
 // we define the models we need using js
 var Session = db.define('Session', {

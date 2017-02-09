@@ -39,7 +39,7 @@ module.exports = {
     //35.8541,-100.8903,50km
     let accessToken = twitter.accessToken;
     let accessTokenSecret = twitter.accessTokenSecret;
-    twtrGetRecentGeoTweets({q: username,'geocode': geocode, count: 1}, accessToken, accessTokenSecret)
+    twtrGetRecentGeoTweets({q: username,'geocode': geocode, count: 50}, accessToken, accessTokenSecret)
     .spread((data, response) => {
       // console.log('getSearchTweets data', data);
       // console.log('getSearchTweets response', response);

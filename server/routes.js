@@ -2,13 +2,13 @@ var controller = require('./controllers');
 
 module.exports = function(app, express) {
 
-  app.get('/analyze/handle/:handle', controller.getAnalysis);
+  app.get('/analyze/:handle', controller.getAnalysis);
   // app.get('/updateTrends', controller.updateTrends);
   app.get('/updateLocation/:locationId', controller.updateLocation);
 
   app.get('/verify', controller.getRequestToken);
   app.get('/oauth', controller.getAccessToken);
-  app.get('/rippl/user/:username', controller.getUserScores);
+  app.get('/rippl/:locationId', controller.getScores);
   app.get('/testuser', controller.createTestUser);
   app.get('/geo', controller.getSearchTweets);
   app.get('/home', function(req, res) {
