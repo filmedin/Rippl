@@ -43,7 +43,7 @@ export default class client extends Component {
     console.log('getting DATA');
     var that = this;
   
-    fetch('http://localhost:3000/rippl/user/RipplMaster', {
+    fetch('http://localhost:8000/rippl/user/RipplMaster', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -86,7 +86,7 @@ export default class client extends Component {
     };
     this.setState({query: ''});
     
-    fetch('http://localhost:3000/analyze/' + query.handle, {
+    fetch('http://localhost:8000/analyze/' + query.handle, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

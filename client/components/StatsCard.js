@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import StatsBox from './StatsBox.js'
-import {View, Text, Linking} from 'react-native';
+import {View, Text, Linking, TouchableHighlight, StyleSheet} from 'react-native';
 // import { Col, Card } from 'react-materialize';
 
 
@@ -28,15 +28,22 @@ class StatsCard extends React.Component{
   }
 
   render(){
-    console.log(this.props.user.twitterHandle + ' has ' + this.props.user.retweetCount + ' retweets');
   	return (
-      <View>
-        <Text onPress={() => Linking.openURL('http://twitter.com/' + this.props.user.twitterHandle)}>
-          {this.props.user.twitterHandle}    
-        </Text>
-        <StatsBox score={this.props.user.sentimentScore} retweet={this.props.user.retweetCount} color={this.getScoreColor()}/>
+      <TouchableHighlight onPress={() => {this.props.changeUser(this.props.user.twitterHandle)}}>
+        <View style={[styles.statCard]}>
+          <Text style={[styles.name]}>
+            {this.props.user.twitterHandle}    
+          </Text>
+          {this.props.selected === 'user' ? (
+              <Text style={[styles.score]}>
+                {this.props.user.sentimentScore ? Math.floor(this.props.user.sentimentScore * 1000) : 'Calculating...'}
+              </Text>
+          
+            ) : (<View/>)}
 
-      </View>
+
+        </View>
+      </TouchableHighlight>
 
    //    <Col m={6} s={12}>
    //  		<Card className='blue-grey darken-1 white-text' textClassName='white-text' title={this.props.user.twitterHandle} actions={[<a href={'http://twitter.com/' + this.props.user.twitterHandle}>To Twitter</a>]}>
@@ -48,3 +55,32 @@ class StatsCard extends React.Component{
 }
 
 export default StatsCard;
+
+//onPress={() => {this.props.changeUser(this.props.user.twitterHandle)}}
+//onPress={() => Linking.openURL('http://twitter.com/' + this.props.user.twitterHandle)}
+
+
+var styles = StyleSheet.create({
+  statCard: {
+    borderColor: '#14716c',
+    borderWidth: 2,
+    borderRadius: 2,
+    margin: 2,
+    padding: 4,
+    backgroundColor: 'lightseagreen',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
+  },
+  name:  {
+    alignSelf: 'flex-start',
+    color: 'white',
+    fontSize: 18
+  },
+  score: {
+    alignSelf: 'flex-end',
+    textAlignVertical: 'center',
+    color: 'white',
+    fontSize: 18
+  }
+});

@@ -35,7 +35,7 @@ app.use('/node_modules', express.static(path.join(__dirname, '../node_modules'))
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Set what we are listening on.
-app.set('port', 3000);
+app.set('port', 8000);
 
 // Set up our routes
 require('./routes.js')(app, express);
