@@ -1,31 +1,20 @@
 import React, { Component } from 'react';
-import StatSpinner from './StatSpinner.js'
 import {View, TextInput, Text, StyleSheet} from 'react-native';
 import Button from 'react-native-button';
 
 class StatsNav extends React.Component{
   constructor(props){
   	super(props);
-
   }
   render(){
-    
   	return(
-      <View >
+      <View>
         <Text style={styles.title}>{this.props.location}</Text>
         {this.props.bodyView === 'user' ? (
           <View style={styles.container}>
             <Text style={styles.preHandle}>@</Text>
-            <TextInput
-                style={styles.handle}
-                placeholder=" Enter a Twitter Handle!"
-                onChangeText={this.props.formChange}
-                value = {this.props.formVal}
-              />
-              <Button style={styles.handleSubmit}
-                onPress={this.props.getUserClick}
-                accessibilityLabel="Get User">🔍
-              </Button>
+            <TextInput style={styles.handle} onChangeText={this.props.formChange} value={this.props.formVal}/>
+            <Button style={styles.handleSubmit} onPress={this.props.getUserClick}>🔍</Button>
           </View>) : (<View/>)}
       </View>
   	);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Text, Linking, TouchableHighlight, StyleSheet} from 'react-native';
+import {View, Text, TouchableHighlight, StyleSheet} from 'react-native';
 // import { Col, Card } from 'react-materialize';
 
 
@@ -7,6 +7,9 @@ import {View, Text, Linking, TouchableHighlight, StyleSheet} from 'react-native'
 class StatsCard extends React.Component{
   constructor(props){
   	super(props)
+  }
+  shouldComponentUpdate() {
+    return false;
   }
 
 

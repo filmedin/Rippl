@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import StatsCard from './StatsCard.js';
+import UserCard from './UserCard.js';
 import TrendsCard from './TrendsCard.js';
 import {StyleSheet, ScrollView, View, Text} from 'react-native';
 
@@ -18,7 +18,7 @@ class StatsBody extends React.Component {
       <View>
         {this.props.bodyView === 'user' ? (
             <ScrollView bounces={true} style={[styles.scrollViewUser]}>
-              {this.props.list.map((user, index) => <StatsCard key={index} changeUser={this.props.changeUser} user={user}/>) }
+              {this.props.list.map((user, index) => <UserCard key={index} changeUser={this.props.changeUser} user={user}/>) }
             </ScrollView>
           ) : (
             <ScrollView style={[styles.scrollViewTrend]}>
