@@ -34,16 +34,16 @@ module.exports = {
 
   },
 
-  getSearchTweets: function(username, cb) {
+  getSearchTweets: function(username, geocode, cb) {
     //bullhead az 35.1359,-114.5286
     //35.8541,-100.8903,50km
     let accessToken = twitter.accessToken;
     let accessTokenSecret = twitter.accessTokenSecret;
-    twtrGetRecentGeoTweets({q: '@BarackObama','geocode': '37.773972,-122.431297,10km', count: 100}, accessToken, accessTokenSecret)
+    twtrGetRecentGeoTweets({q: username,'geocode': geocode, count: 1}, accessToken, accessTokenSecret)
     .spread((data, response) => {
       // console.log('getSearchTweets data', data);
       // console.log('getSearchTweets response', response);
-      cb(data, response);
+      cb(null, data, response);
       // res.send(data);
     })
     .catch((err) => {

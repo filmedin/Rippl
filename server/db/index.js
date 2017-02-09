@@ -8,6 +8,7 @@ var Session = db.define('Session', {
   data: Sequelize.STRING,
 });
 
+//not currently using authorization
 var User = db.define('User', {
   username: {type: Sequelize.STRING, unique: true},
   password: Sequelize.STRING,
@@ -23,7 +24,8 @@ var Score = db.define('Score', {
   tweetText: Sequelize.TEXT,
   sentimentScore: Sequelize.FLOAT,
   retweetCount: Sequelize.INTEGER,
-  favoriteCount: Sequelize.INTEGER  
+  favoriteCount: Sequelize.INTEGER,
+  locationId: Sequelize.INTEGER
 });
 
 // enables bi-directional associations between Users and Scores
