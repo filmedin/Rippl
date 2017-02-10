@@ -28,6 +28,13 @@ var Score = db.define('Score', {
   locationId: Sequelize.INTEGER
 });
 
+
+var Trend = db.define('Trend', {
+  trend: Sequelize.STRING,
+  locationId: Sequelize.INTEGER,
+  numTweets: Sequelize.INTEGER
+});
+
 // enables bi-directional associations between Users and Scores
 User.hasMany(Score);
 
@@ -39,6 +46,7 @@ Score.belongsTo(User);
 User.sync();
 Score.sync();
 Session.sync();
+Trend.sync();
 // creates these tables in MySQL if they don't already exist. Pass in {force: true}
 // to drop any existing user and Score tables and make new ones.
 
@@ -50,3 +58,4 @@ module.exports.db = db;
 module.exports.User = User;
 module.exports.Score = Score;
 module.exports.Session = Session;
+module.exports.Trend = Trend;

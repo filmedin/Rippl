@@ -11,10 +11,13 @@ class TrendsCard extends React.Component{
 
   render(){
     return (
-      <TouchableHighlight onPress={() => {this.props.changeTrend(this.props.user.twitterHandle)}}>
+      <TouchableHighlight onPress={() => {this.props.changeTrend(this.props.trend.trend)}}>
         <View style={[styles.statCard]}>
           <Text style={[styles.name]}>
-            {this.props.user.twitterHandle}    
+            {decodeURIComponent(this.props.trend.trend).replace(/"/g,'').replace(/\+/g,' ')}    
+          </Text>
+          <Text style={[styles.score]}>
+            {this.props.trend.numTweets}
           </Text>
         </View>
       </TouchableHighlight>
@@ -42,6 +45,11 @@ var styles = StyleSheet.create({
   },
   name:  {
     alignSelf: 'flex-start',
+    color: 'white',
+    fontSize: 18
+  },
+  score: {
+    alignSelf: 'flex-end',
     color: 'white',
     fontSize: 18
   }

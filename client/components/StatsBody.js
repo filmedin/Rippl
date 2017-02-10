@@ -22,7 +22,7 @@ class StatsBody extends React.Component {
             </ScrollView>
           ) : (
             <ScrollView style={[styles.scrollViewTrend]}>
-              {this.props.list.map((user, index) => <TrendsCard key={index} changeTrend={this.props.changeTrend} user={user}/>) }
+              {this.props.list.map((trend, index) => <TrendsCard key={index} changeTrend={this.props.changeTrend} trend={trend}/>) }
             </ScrollView>
           )
         }

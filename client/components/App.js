@@ -28,7 +28,8 @@ class App extends Component {
       clickedUser: '',
       clickedTrend: '',
       pageView: 'home',
-      bodyView:'user'
+      bodyView:'user',
+      location: 0
     }
 
 
@@ -66,14 +67,17 @@ class App extends Component {
     this.setState({clickedTrend:trend, pageView:'trend'});
   }
   changeBody(body) {
-    this.setState({bodyView:body})
+    this.setState({bodyView:body}, () => {
+      this.getData(this.state.location);
+    });
   }
   // This function gets all the user data for user RipplMaster (default user),
   // stops the spinner animation, and if there is an error displays an error message.
   getData(location) {
     var that = this;
+    var searchURL = (this.state.bodyView === 'user') ? 'rippl/' : 'getTrends/';
     //10.0.3.2
-    fetch('http://10.6.20.226:8000/rippl/' + location, {
+    fetch('http://10.6.20.226:8000/' + searchURL + location, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -81,6 +85,7 @@ class App extends Component {
       }
     })
     .then(response => response.json()).then(data => {
+
       that.setState({list: data, error: false});
     })
     .catch(err => {
@@ -92,6 +97,17 @@ class App extends Component {
   // Gets the data on mounting
   componentWillMount(){
     this.getData(0);
+
+    setInterval( () => {
+      fetch('http://10.6.20.226:8000/trends', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      }).then(data => null);
+    }, 900000);
+
   }
 
   // Handles changes in the input tag
@@ -99,9 +115,8 @@ class App extends Component {
     this.setState({query: text});
   }
   onMomentumScrollEnd (e, state, context) {
+    this.setState({location: state.index});
     this.getData(state.index);
-    
-
   }
 
   // This function gets tells the server to get the data for the a specified user,
@@ -112,7 +127,7 @@ class App extends Component {
     var handle = this.state.query;
 
     this.setState({query: ''});
-    fetch('http://10.6.20.226:8000/analyze/' + handle, {
+    fetch('http://10.6.20.226:8000/analyze/@' + handle, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -155,7 +170,7 @@ class App extends Component {
           ) : (this.state.pageView === 'user') ? (
             <UserStat clickedUser={this.state.clickedUser} goHome={this.goHome}/>
           ) : (
-            <TrendStat clickedTrend={this.state.clickedTrend} goHome={this.goHome}/>
+            <TrendStat location={this.state.location} clickedTrend={this.state.clickedTrend} goHome={this.goHome}/>
           )
         }
       </View>

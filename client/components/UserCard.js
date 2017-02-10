@@ -8,11 +8,6 @@ class StatsCard extends React.Component{
   constructor(props){
   	super(props)
   }
-  shouldComponentUpdate() {
-    return false;
-  }
-
-
   render(){
   	return (
       <TouchableHighlight onPress={() => {this.props.changeUser(this.props.user.twitterHandle)}}>

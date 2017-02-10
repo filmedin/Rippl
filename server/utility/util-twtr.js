@@ -18,6 +18,7 @@ var twtrGetAccessTokenAsync = Promise.promisify(twitter.getAccessToken, {context
 var twtrVerifyCredentialsAsync = Promise.promisify(twitter.verifyCredentials, {context: twitter, multiArgs: true});
 var twtrGetTimelineAsync = Promise.promisify(twitter.getTimeline, {context: twitter, multiArgs: true});
 var twtrGetRecentGeoTweets = Promise.promisify(twitter.search, {context: twitter, multiArgs: true});
+var twtrGetRecentGeoTrends = Promise.promisify(twitter.trends, {context: twitter, multiArgs: true});
 
 module.exports = {
   getTweets: function(username, callback) {
@@ -39,10 +40,30 @@ module.exports = {
     //35.8541,-100.8903,50km
     let accessToken = twitter.accessToken;
     let accessTokenSecret = twitter.accessTokenSecret;
-    twtrGetRecentGeoTweets({q: username,'geocode': geocode, count: 50}, accessToken, accessTokenSecret)
+    twtrGetRecentGeoTweets({q: username, geocode: geocode, count: 50}, accessToken, accessTokenSecret)
     .spread((data, response) => {
       // console.log('getSearchTweets data', data);
       // console.log('getSearchTweets response', response);
+      cb(null, data, response);
+      // res.send(data);
+    })
+    .catch((err) => {
+      console.error('Timeline retrieval error ', err);
+      cb(err);
+      // res.end();
+    });
+  },
+
+
+  getTrends: function(id, cb) {
+    //bullhead az 35.1359,-114.5286
+    //35.8541,-100.8903,50km
+    let accessToken = twitter.accessToken;
+    let accessTokenSecret = twitter.accessTokenSecret;
+    twtrGetRecentGeoTrends('place', {id: id.toString()}, accessToken, accessTokenSecret)
+    .spread((data, response) => {
+      // console.log('getTrends data', data);
+      // console.log('getTrends response', response);
       cb(null, data, response);
       // res.send(data);
     })
