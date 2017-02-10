@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Text, TouchableHighlight, StyleSheet} from 'react-native';
+import {View, Text, TouchableHighlight, StyleSheet, Image} from 'react-native';
 // import { Col, Card } from 'react-materialize';
 
 
@@ -29,12 +29,12 @@ export default StatsCard;
 
 var styles = StyleSheet.create({
   statCard: {
-    borderColor: '#14716c',
+    // borderColor: '#14716c',
     borderWidth: 2,
-    borderRadius: 2,
+    borderRadius: 5,
     margin: 2,
     padding: 4,
-    backgroundColor: 'lightseagreen',
+    backgroundColor: 'rgba(255,255,255,0.2)',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between'

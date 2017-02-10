@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import {AppRegistry, StyleSheet, Text, View} from 'react-native';
+import {AppRegistry, StyleSheet, Text, View, Image} from 'react-native';
 import Swiper from 'react-native-swiper';
 import Tabs from 'react-native-tabs';
 
@@ -146,10 +146,12 @@ class App extends Component {
   render() {
     return (
       <View>
+        <Image source={require('../img/toronto.jpg')} style={styles.backgroundImage}/>
+        <Text style={styles.title}>{location[this.state.location].name}</Text>
         {
           (this.state.pageView === 'home') ? (
-          <View>
-            <Swiper height={650} loop={true} onMomentumScrollEnd={this.onMomentumScrollEnd}>
+          <View style={styles.background}>
+            <Swiper height={610} loop={true} onMomentumScrollEnd={this.onMomentumScrollEnd}>
               {location.map((loc) => {
                 return (
                 <View key={loc.id}>
@@ -181,13 +183,36 @@ class App extends Component {
 }
 var location = [{id: 0, name: 'Worldwide'},{id: 1, name: 'San Francisco'},{id: 2, name: 'Toronto'},{id: 3, name: 'New York'},{id: 4, name: 'Chicago'},{id: 5, name: 'Austin'}];
 var styles = StyleSheet.create({
+  title: {
+    textAlign:'center', 
+    fontSize:30, 
+    color:'white', 
+    textShadowColor:'black', 
+    textShadowRadius:2, 
+    backgroundColor:'black'
+  },
   container: {
     flex: 1,
     marginTop: 10,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  backgroundImage: {
+    //flex: 1
+    //resizeMode: 'stretch' // or 'stretch'
+    zIndex: -1,
+    height: 800,
+    width: 500,
+    position: 'absolute',
+    left:     0,
+    top:      0
+  },
+  background: {
+    backgroundColor:'rgba(52,52,52,0)'
   }
 })
 
 
 export default App;
+
+

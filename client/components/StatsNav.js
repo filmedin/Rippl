@@ -9,7 +9,7 @@ class StatsNav extends React.Component{
   render(){
   	return(
       <View>
-        <Text style={styles.title}>{this.props.location}</Text>
+
         {this.props.bodyView === 'user' ? (
           <View style={styles.container}>
             <Text style={styles.preHandle}>@</Text>
@@ -74,3 +74,4 @@ var styles = StyleSheet.create({
      //      <Button onClick={this.handleClick.bind(this)} waves='light'>Get User</Button>
      //    </NavItem>
      //  </Navbar>
+             // <Text style={styles.title}>{this.props.location}</Text>

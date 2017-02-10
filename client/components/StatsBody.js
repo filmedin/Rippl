@@ -15,7 +15,7 @@ class StatsBody extends React.Component {
   }
   render(){
   	return (
-      <View>
+      <View style={styles.background}>
         {this.props.bodyView === 'user' ? (
             <ScrollView bounces={true} style={[styles.scrollViewUser]}>
               {this.props.list.map((user, index) => <UserCard key={index} changeUser={this.props.changeUser} user={user}/>) }
@@ -43,6 +43,9 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+  },
+  background: {
+    backgroundColor:'rgba(52,52,52,0)'
   }
 });
 export default StatsBody;

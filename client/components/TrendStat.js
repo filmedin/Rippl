@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Text, BackAndroid} from 'react-native';
+import {ScrollView, View, Text, BackAndroid, StyleSheet} from 'react-native';
 // import { Col, Row, Card, CardPanel } from 'react-materialize';
 
 
@@ -35,14 +35,57 @@ class TrendStat extends React.Component{
   }
   render(){
     return (
-
       <View>
-        <Text>
-          {decodeURIComponent(this.props.clickedTrend).replace(/"/g,'').replace(/\+/g,' ')} {this.state.data ? Math.floor(this.state.data.sentiment * 1000) : 'Calculating ...'}
-        </Text>
+        <View style={styles.container}>
+          <Text style={styles.trend}>
+            {decodeURIComponent(this.props.clickedTrend).replace(/"/g,'').replace(/\+/g,' ')}
+          </Text>
+          <Text style={styles.sentiment}>
+            {this.state.data ? Math.floor(this.state.data.sentiment * 1000) : 'Calculating ...'}
+          </Text>
+        </View>
+        {this.state.data ? (
+          <ScrollView style={[styles.scrollViewTrend]}>
+            {this.state.data.globalTweets.map((tweet, index) => {return (<View style={styles.textView}><Text style={styles.text}>{tweet.text}</Text></View>)}) }
+          </ScrollView>
+          ) : (<Text>Loading...</Text>)}
+
       </View>
     );
   }
 }
 
+var styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'lightgrey'
+    // flexDirection:'column', 
+    // flexWrap:'wrap',
+    // justifyContent: 'space-between'
+
+  },
+  trend: {
+    fontSize: 20,
+    textAlign: 'center'
+
+  },
+  sentiment: {
+    fontSize: 20,
+    textAlign: 'center'
+  },
+  scrollViewTrend: {
+    height: 600
+  },
+  textView: {
+    borderTopColor: '#E1E8ED',
+    borderBottomColor: '#E1E8ED',
+    borderWidth: 0.5,
+    padding: 15,
+    backgroundColor: 'white'
+  },
+  text: {
+    fontSize: 16
+  }
+});
+
 export default TrendStat;
+
