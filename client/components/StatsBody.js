@@ -15,14 +15,14 @@ class StatsBody extends React.Component {
   }
   render(){
   	return (
-      <View>
+      <View style={styles.background}>
         {this.props.bodyView === 'user' ? (
             <ScrollView bounces={true} style={[styles.scrollViewUser]}>
               {this.props.list.map((user, index) => <UserCard key={index} changeUser={this.props.changeUser} user={user}/>) }
             </ScrollView>
           ) : (
             <ScrollView style={[styles.scrollViewTrend]}>
-              {this.props.list.map((user, index) => <TrendsCard key={index} changeTrend={this.props.changeTrend} user={user}/>) }
+              {this.props.list.map((trend, index) => <TrendsCard key={index} changeTrend={this.props.changeTrend} trend={trend}/>) }
             </ScrollView>
           )
         }
@@ -43,6 +43,9 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+  },
+  background: {
+    backgroundColor:'rgba(255,255,255,0)'
   }
 });
 export default StatsBody;

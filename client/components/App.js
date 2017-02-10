@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import {AppRegistry, StyleSheet, Text, View} from 'react-native';
+import {AppRegistry, StyleSheet, Text, View, Image} from 'react-native';
 import Swiper from 'react-native-swiper';
 import Tabs from 'react-native-tabs';
 
@@ -28,7 +28,8 @@ class App extends Component {
       clickedUser: '',
       clickedTrend: '',
       pageView: 'home',
-      bodyView:'user'
+      bodyView:'user',
+      location: 0
     }
 
 
@@ -66,14 +67,17 @@ class App extends Component {
     this.setState({clickedTrend:trend, pageView:'trend'});
   }
   changeBody(body) {
-    this.setState({bodyView:body})
+    this.setState({bodyView:body}, () => {
+      this.getData(this.state.location);
+    });
   }
   // This function gets all the user data for user RipplMaster (default user),
   // stops the spinner animation, and if there is an error displays an error message.
   getData(location) {
     var that = this;
+    var searchURL = (this.state.bodyView === 'user') ? 'rippl/' : 'getTrends/';
     //10.0.3.2
-    fetch('http://10.6.20.226:8000/rippl/' + location, {
+    fetch('http://10.6.20.226:8000/' + searchURL + location, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -81,6 +85,7 @@ class App extends Component {
       }
     })
     .then(response => response.json()).then(data => {
+
       that.setState({list: data, error: false});
     })
     .catch(err => {
@@ -92,6 +97,17 @@ class App extends Component {
   // Gets the data on mounting
   componentWillMount(){
     this.getData(0);
+
+    setInterval( () => {
+      fetch('http://10.6.20.226:8000/trends', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      }).then(data => null);
+    }, 900000);
+
   }
 
   // Handles changes in the input tag
@@ -99,9 +115,8 @@ class App extends Component {
     this.setState({query: text});
   }
   onMomentumScrollEnd (e, state, context) {
+    this.setState({location: state.index});
     this.getData(state.index);
-    
-
   }
 
   // This function gets tells the server to get the data for the a specified user,
@@ -112,7 +127,7 @@ class App extends Component {
     var handle = this.state.query;
 
     this.setState({query: ''});
-    fetch('http://10.6.20.226:8000/analyze/' + handle, {
+    fetch('http://10.6.20.226:8000/analyze/@' + handle, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -131,10 +146,19 @@ class App extends Component {
   render() {
     return (
       <View>
+        <Image source={
+          (this.state.location === 0) ? (require('../img/world.jpg')) :
+          (this.state.location === 1) ? (require('../img/sf.jpg')) :
+          (this.state.location === 2) ? (require('../img/toronto.jpg')) :
+          (this.state.location === 3) ? (require('../img/nyc.jpg')) :
+          (this.state.location === 4) ? (require('../img/chicago.jpg')) :
+          (require('../img/austin.jpg')) 
+        } style={styles.backgroundImage}/>
+        <Text style={styles.title}>{location[this.state.location].name}</Text>
         {
           (this.state.pageView === 'home') ? (
-          <View>
-            <Swiper height={650} loop={true} onMomentumScrollEnd={this.onMomentumScrollEnd}>
+          <View style={styles.background}>
+            <Swiper height={590} loop={true} onMomentumScrollEnd={this.onMomentumScrollEnd}>
               {location.map((loc) => {
                 return (
                 <View key={loc.id}>
@@ -155,7 +179,7 @@ class App extends Component {
           ) : (this.state.pageView === 'user') ? (
             <UserStat clickedUser={this.state.clickedUser} goHome={this.goHome}/>
           ) : (
-            <TrendStat clickedTrend={this.state.clickedTrend} goHome={this.goHome}/>
+            <TrendStat location={this.state.location} clickedTrend={this.state.clickedTrend} goHome={this.goHome}/>
           )
         }
       </View>
@@ -164,15 +188,43 @@ class App extends Component {
     );
   }
 }
-var location = [{id: 0, name: 'Worldwide'},{id: 1, name: 'San Francisco'},{id: 2, name: 'Toronto'},{id: 3, name: 'New York'},{id: 4, name: 'Chicago'},{id: 5, name: 'Austin'}];
+
+var location = [
+  {id: 0, name: 'Worldwide', img:'world.jpg'},
+  {id: 1, name: 'San Francisco', img:'sf.jpg'},
+  {id: 2, name: 'Toronto', img:'toronto.jpg'},
+  {id: 3, name: 'New York', img:'nyc.jpg'},
+  {id: 4, name: 'Chicago', img:'chicago.jpg'},
+  {id: 5, name: 'Austin', img:'austin.jpg'}];
 var styles = StyleSheet.create({
+  title: {
+    textAlign:'center', 
+    fontSize:50, 
+    color:'white',
+    backgroundColor:'rgba(0,0,0,0.7)'
+  },
   container: {
     flex: 1,
     marginTop: 10,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  backgroundImage: {
+    //flex: 1
+    //resizeMode: 'stretch' // or 'stretch'
+    zIndex: -1,
+    height: 800,
+    width: 500,
+    position: 'absolute',
+    left:     0,
+    top:      0
+  },
+  background: {
+    backgroundColor:'rgba(52,52,52,0)'
   }
 })
 
 
 export default App;
+
+
