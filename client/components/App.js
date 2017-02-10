@@ -146,12 +146,19 @@ class App extends Component {
   render() {
     return (
       <View>
-        <Image source={require('../img/toronto.jpg')} style={styles.backgroundImage}/>
+        <Image source={
+          (this.state.location === 0) ? (require('../img/world.jpg')) :
+          (this.state.location === 1) ? (require('../img/sf.jpg')) :
+          (this.state.location === 2) ? (require('../img/toronto.jpg')) :
+          (this.state.location === 3) ? (require('../img/nyc.jpg')) :
+          (this.state.location === 4) ? (require('../img/chicago.jpg')) :
+          (require('../img/austin.jpg')) 
+        } style={styles.backgroundImage}/>
         <Text style={styles.title}>{location[this.state.location].name}</Text>
         {
           (this.state.pageView === 'home') ? (
           <View style={styles.background}>
-            <Swiper height={610} loop={true} onMomentumScrollEnd={this.onMomentumScrollEnd}>
+            <Swiper height={590} loop={true} onMomentumScrollEnd={this.onMomentumScrollEnd}>
               {location.map((loc) => {
                 return (
                 <View key={loc.id}>
@@ -181,15 +188,20 @@ class App extends Component {
     );
   }
 }
-var location = [{id: 0, name: 'Worldwide'},{id: 1, name: 'San Francisco'},{id: 2, name: 'Toronto'},{id: 3, name: 'New York'},{id: 4, name: 'Chicago'},{id: 5, name: 'Austin'}];
+
+var location = [
+  {id: 0, name: 'Worldwide', img:'world.jpg'},
+  {id: 1, name: 'San Francisco', img:'sf.jpg'},
+  {id: 2, name: 'Toronto', img:'toronto.jpg'},
+  {id: 3, name: 'New York', img:'nyc.jpg'},
+  {id: 4, name: 'Chicago', img:'chicago.jpg'},
+  {id: 5, name: 'Austin', img:'austin.jpg'}];
 var styles = StyleSheet.create({
   title: {
     textAlign:'center', 
-    fontSize:30, 
-    color:'white', 
-    textShadowColor:'black', 
-    textShadowRadius:2, 
-    backgroundColor:'black'
+    fontSize:50, 
+    color:'white',
+    backgroundColor:'rgba(0,0,0,0.7)'
   },
   container: {
     flex: 1,

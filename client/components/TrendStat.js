@@ -40,13 +40,13 @@ class TrendStat extends React.Component{
           <Text style={styles.trend}>
             {decodeURIComponent(this.props.clickedTrend).replace(/"/g,'').replace(/\+/g,' ')}
           </Text>
-          <Text style={styles.sentiment}>
+          <Text style={styles.trend}>
             {this.state.data ? Math.floor(this.state.data.sentiment * 1000) : 'Calculating ...'}
           </Text>
         </View>
         {this.state.data ? (
           <ScrollView style={[styles.scrollViewTrend]}>
-            {this.state.data.globalTweets.map((tweet, index) => {return (<View style={styles.textView}><Text style={styles.text}>{tweet.text}</Text></View>)}) }
+            {this.state.data.globalTweets.map((tweet, index) => {return (<View style={styles.textView}><Text style={styles.text}>@{tweet.user.screen_name}: {tweet.text}</Text></View>)}) }
           </ScrollView>
           ) : (<Text>Loading...</Text>)}
 
@@ -57,7 +57,7 @@ class TrendStat extends React.Component{
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: 'lightgrey'
+    backgroundColor: 'rgba(0,0,0,0.7)'
     // flexDirection:'column', 
     // flexWrap:'wrap',
     // justifyContent: 'space-between'
@@ -65,24 +65,21 @@ var styles = StyleSheet.create({
   },
   trend: {
     fontSize: 20,
-    textAlign: 'center'
-
-  },
-  sentiment: {
-    fontSize: 20,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: 'white'
   },
   scrollViewTrend: {
     height: 600
   },
   textView: {
-    borderTopColor: '#E1E8ED',
-    borderBottomColor: '#E1E8ED',
-    borderWidth: 0.5,
+    borderTopColor: 'lightgrey',
+    borderBottomColor: 'lightgrey',
+    borderWidth: 0.25,
     padding: 15,
-    backgroundColor: 'white'
+    backgroundColor: 'rgba(0,0,0,0.7)'
   },
   text: {
+    color: 'white',
     fontSize: 16
   }
 });

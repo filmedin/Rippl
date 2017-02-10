@@ -45,7 +45,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   background: {
-    backgroundColor:'rgba(52,52,52,0)'
+    backgroundColor:'rgba(255,255,255,0)'
   }
 });
 export default StatsBody;

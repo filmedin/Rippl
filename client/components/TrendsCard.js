@@ -34,23 +34,23 @@ export default TrendsCard;
 var styles = StyleSheet.create({
   statCard: {
     // borderColor: '#14716c',
-    borderWidth: 2,
-    borderRadius: 5,
+    // borderWidth: 2,
+    // borderRadius: 5,
     margin: 2,
-    padding: 4,
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    padding: 10,
+    backgroundColor: 'rgba(255,255,255,0.3)',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between'
   },
   name:  {
     alignSelf: 'flex-start',
-    color: 'white',
+    color: '#54575C',
     fontSize: 18
   },
   score: {
     alignSelf: 'flex-end',
-    color: 'white',
+    color: '#54575C',
     fontSize: 18
   }
 });

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, TextInput, Text, StyleSheet} from 'react-native';
+import {View, TextInput, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import Button from 'react-native-button';
 
 class StatsNav extends React.Component{
@@ -14,7 +14,9 @@ class StatsNav extends React.Component{
           <View style={styles.container}>
             <Text style={styles.preHandle}>@</Text>
             <TextInput style={styles.handle} onChangeText={this.props.formChange} value={this.props.formVal}/>
-            <Button style={styles.handleSubmit} onPress={this.props.getUserClick}>🔍</Button>
+            <TouchableHighlight style={styles.searchView} onPress={this.props.getUserClick}>
+              <Image style={styles.search} source={require('../img/search.png')}/>
+            </TouchableHighlight>
           </View>) : (<View/>)}
       </View>
   	);
@@ -23,44 +25,43 @@ class StatsNav extends React.Component{
 
 export default StatsNav;
 var styles = StyleSheet.create({
-  title: {
-    textAlign:'center', 
-    fontSize:30, 
-    color:'white', 
-    textShadowColor:'black', 
-    textShadowRadius:2, 
-    backgroundColor:'black'
-  },
   container: {
     flexDirection:'row', 
-    flexWrap:'wrap', 
-    borderColor:'black', 
-    borderWidth: 1, 
-    backgroundColor:'black'
+    flexWrap:'wrap',   
+    backgroundColor:'rgba(255,255,255,0)'
   },
   preHandle: {
     height: 30, 
     fontSize:20, 
     top: 5, 
-    color:'white', 
-    left: 5
+    color:'#6D737B', 
+    left: 10
   },
   handle: {
     width: 340, 
     height: 45, 
-    fontSize: 15, 
+    fontSize: 22, 
     textAlignVertical: 'top', 
-    color:'white', 
-    left: 5
+    color:'#6D737B', 
+    left: 10
   },
   handleSubmit: {
     fontSize: 22, 
-    color: 'green', 
     top: 5, 
     left: 5, 
     width: 40
+  },
+  search:  {
+    width: 35,
+    height: 35
+  },
+  searchView:  {
+    top: 5,
+    left: 10
   }
 });
+
+//            <Button style={styles.handleSubmit} onPress={this.props.getUserClick}>🔍</Button>
 // <Navbar right>
      //    <NavItem href='/'>
      //      <img src="../img/rippl-sml.png" className="brand-logo right ripplnav"/>
