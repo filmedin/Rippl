@@ -3,12 +3,7 @@ var havenUtil = require('../utility/util-haven.js');
 var Promise = require('bluebird');
 
 var {Score, User, Handle, Trend} = require('../db/index.js');
-var queryString = require('query-string');
 
-
-
-
-var getTweetsAsync = Promise.promisify(twitterUtil.getTweets, {context: twitterUtil, multiArgs: true});
 var getSentimentAsync = Promise.promisify(havenUtil.getSentiment, {context: havenUtil});
 var getSearchTweetsAsync = Promise.promisify(twitterUtil.getSearchTweets, {context: twitterUtil, multiArgs: true});
 var getTrendsAsync = Promise.promisify(twitterUtil.getTrends, {context: twitterUtil, multiArgs: true});
@@ -20,7 +15,6 @@ var geocodes = [
       {city:'New York', geocode: '40.7128,-74.0059,50km', id:2459115},
       {city:'Chicago', geocode: '41.8781,-87.6298,50km', id:2379574},
       {city:'Austin', geocode: '30.2672,-97.7431,50km', id:2357536}
-      
     ];
 
 module.exports = {
@@ -98,30 +92,8 @@ module.exports = {
     })
   },
 
-  getRequestToken: function(req, res, next) {
-    twitterUtil.getRequestToken(req, res);
-  },
-
-  getAccessToken: function(req, res, next) {
-    // Receives callback that contains oAuth verifier
-    // Pull verifier from query parameters
-    // Send oAuth verifier through utility function and user promises to verify consumer keys
-    let oAuthVerifier = req.query.oauth_verifier;
-    twitterUtil.getAccessToken(req, res, oAuthVerifier);
-  },
-
-  getSearchTweets: function(req, res, next) {
-      getSearchTweetsAsync('abc', data => {
-        var tweetString = twitterUtil.getTweetString(data.statuses).string;
-        getSentimentAsync('', tweetString).then(data => {
-          console.log('$$$$$$#####', data);
-        });
-        res.send(data);
-    });
-  },
   getScores: function(req, res, next) {
-    let locationId = req.params.locationId || 0;
-    Score.findAll({where: {locationId: locationId}})
+    Score.findAll({where: {locationId: (req.params.locationId || 0)}})
     .then(function(scores) {
       res.status(200).json(scores);
     })
@@ -130,32 +102,9 @@ module.exports = {
     });
   },
   getTrends: function(req, res, next) {
-    let locationId = req.params.locationId || 0;
-    Trend.findAll({where: {locationId: locationId}})
-    .then(function(trends) {
-      res.status(200).json(trends);
-    })
-    .catch(function(err) {
-      res.status(404).end();
-    });    
-  },
-  createTestUser: function(req, res, next) {
-    User.findOrCreate({where: {username: 'RipplMaster'}, defaults: {password: ''}})
-    .then((user) => {
-      console.log('testUser created');
-      res.status(200).end();
-    })
-    .catch((err) => {
-      console.log('RipplMaster creation error');
-      res.status(404).end();
-    });
-  },
-
-  updateLocation: function(req, res, next) {
-    var location = req.params.locationId;
-
-
-
+    Trend.findAll({where: {locationId: (req.params.locationId || 0)}})
+    .then(trends => {res.status(200).json(trends);})
+    .catch(err => {res.status(404).end();});    
   }
 
 };
