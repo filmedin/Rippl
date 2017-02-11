@@ -14,7 +14,11 @@ var geocodes = [
       {city:'Toronto', geocode: '43.6532,-79.3832,50km', id:4118},
       {city:'New York', geocode: '40.7128,-74.0059,50km', id:2459115},
       {city:'Chicago', geocode: '41.8781,-87.6298,50km', id:2379574},
-      {city:'Austin', geocode: '30.2672,-97.7431,50km', id:2357536}
+      {city:'Austin', geocode: '30.2672,-97.7431,50km', id:2357536},
+      {city:'Sydney', geocode: '-33.8688,151.2093,50km', id:1105779},
+      {city:'London', geocode: '51.5074,-0.1278km', id:44418},
+      {city:'Dubai', geocode: '25.2048, 55.2708,50km', id:1940330},
+      {city:'Rio de Janeiro', geocode: '-22.9068, -43.1729,50km', id:455819}
     ];
 
 module.exports = {
@@ -29,12 +33,12 @@ module.exports = {
     }
     Promise.all(promises).then(values => {
       globalTweets = values;
-
         globalTweetStrings = globalTweets.map(location => {
           return twitterUtil.getTweetString(location[0].statuses);
         })
         var sentimentPromises = globalTweetStrings.map((location, index) => {
-          return getSentimentAsync(null, location.string);
+
+          return location.string ? getSentimentAsync(null, location.string) : 0;
         })
         return Promise.all(sentimentPromises);
       })

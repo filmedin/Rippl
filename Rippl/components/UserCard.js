@@ -4,7 +4,7 @@ import {View, Text, TouchableHighlight, StyleSheet, Image} from 'react-native';
 
 
 // This is the component that represents the cards holding data on each user
-class StatsCard extends React.Component{
+class UserCard extends React.Component{
   constructor(props){
   	super(props)
   }
@@ -16,7 +16,7 @@ class StatsCard extends React.Component{
             {this.props.user.twitterHandle ? this.props.user.twitterHandle : 'Calculating...'}    
           </Text>
           <Text style={[styles.score]}>
-            {this.props.user.sentimentScore ? Math.floor(this.props.user.sentimentScore * 1000) : 'Calculating...'}
+            {this.props.user ? Math.floor(this.props.user.sentimentScore * 1000) : 'Calculating...'}
           </Text>
         </View>
       </TouchableHighlight>
@@ -24,7 +24,7 @@ class StatsCard extends React.Component{
   }
 }
 
-export default StatsCard;
+export default UserCard;
 
 
 var styles = StyleSheet.create({
