@@ -148,7 +148,14 @@ class App extends Component {
   render() {
     return (
       <View>
-
+        <Image source={
+          (this.state.location === 0) ? (require('../img/world.jpg')) :
+          (this.state.location === 1) ? (require('../img/sf.jpg')) :
+          (this.state.location === 2) ? (require('../img/toronto.jpg')) :
+          (this.state.location === 3) ? (require('../img/nyc.jpg')) :
+          (this.state.location === 4) ? (require('../img/chicago.jpg')) :
+          (require('../img/austin.jpg'))
+        } style={styles.backgroundImage}/>
         <Text style={styles.title}>{location[this.state.location].name}</Text>
         {
           (this.state.pageView === 'home') ? (
@@ -157,14 +164,7 @@ class App extends Component {
               {location.map((loc) => {
                 return (
                 <View key={loc.id}>
-                  <Image source={
-                    (this.state.location === 0) ? (require('../img/world.jpg')) :
-                    (this.state.location === 1) ? (require('../img/sf.jpg')) :
-                    (this.state.location === 2) ? (require('../img/toronto.jpg')) :
-                    (this.state.location === 3) ? (require('../img/nyc.jpg')) :
-                    (this.state.location === 4) ? (require('../img/chicago.jpg')) :
-                    (require('../img/austin.jpg'))
-                  } style={styles.backgroundImage}/>
+
                   <StatsNav bodyView={this.state.bodyView} location={loc.name} formVal={this.state.query} getUserClick={this.queryUser} formChange={this.handleChange}/>
                   <StatsBody bodyView={this.state.bodyView} changeBody={this.changeBody} changeUser={this.changeUser} changeTrend={this.changeTrend} list={this.state.list}/>
                 </View>
