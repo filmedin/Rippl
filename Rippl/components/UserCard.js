@@ -20,7 +20,6 @@ class UserCard extends React.Component{
         right={[
           {
             text: 'delete',
-            // onPress: () => {console.log(this.props.user.twitterHandle)},
             onPress: () => {
               this.props.deleteUser(this.props.user.twitterHandle)
             },

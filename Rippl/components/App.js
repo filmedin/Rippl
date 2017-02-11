@@ -75,8 +75,6 @@ class App extends Component {
   // This function gets all the user data for user RipplMaster (default user),
   // stops the spinner animation, and if there is an error displays an error message.
   getData(location) {
-    console.log('##### in here!!!', location)
-
     var that = this;
     var searchURL = (this.state.bodyView === 'user') ? 'rippl/' : 'getTrends/';
     //10.0.3.2
@@ -142,15 +140,11 @@ class App extends Component {
     .then(data => {this.getData(this.state.location)})
     .catch(err => {
       that.setState({error: true});
-      // console.log('errrrrrrrror')
     });
   }
-  //end of copied text
 
   deleteUser(handle) {
     var that = this;
-    // var handle = this.state.query;
-
     this.setState({query: ''});
     fetch('http://127.0.0.1:8000/delete/' + handle, {
       method: 'GET',
@@ -192,7 +186,7 @@ class App extends Component {
                 <View key={loc.id}>
 
                   <StatsNav bodyView={this.state.bodyView} location={loc.name} formVal={this.state.query} getUserClick={this.queryUser} formChange={this.handleChange}/>
-                  <StatsBody bodyView={this.state.bodyView} changeBody={this.changeBody} changeUser={this.changeUser} changeTrend={this.changeTrend} list={this.state.list} deleteUser={this.deleteUser} goHome={this.goHome}/>
+                  <StatsBody bodyView={this.state.bodyView} changeBody={this.changeBody} changeUser={this.changeUser} changeTrend={this.changeTrend} list={this.state.list} deleteUser={this.deleteUser}/>
                 </View>
                 )
               })}

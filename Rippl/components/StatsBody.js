@@ -18,7 +18,7 @@ class StatsBody extends React.Component {
       <View style={styles.background}>
         {this.props.bodyView === 'user' ? (
             <ScrollView bounces={true} style={[styles.scrollViewUser]}>
-              {this.props.list.map((user, index) => <UserCard key={index} changeUser={this.props.changeUser} user={user} deleteUser={this.props.deleteUser} goHome={this.props.goHome}/>) }
+              {this.props.list.map((user, index) => <UserCard key={index} changeUser={this.props.changeUser} user={user} deleteUser={this.props.deleteUser}/>) }
             </ScrollView>
           ) : (
             <ScrollView style={[styles.scrollViewTrend]}>
