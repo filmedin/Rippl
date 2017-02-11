@@ -17,7 +17,7 @@ class TrendStat extends React.Component{
      that.props.goHome();
      return true;
     });
-    fetch('http://192.168.0.2:8000/ripplTrend/loc/' + this.props.location + '/trend/' + this.props.clickedTrend, {
+    fetch('http://10.6.20.226:8000/ripplTrend/loc/' + this.props.location + '/trend/' + this.props.clickedTrend, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -38,7 +38,7 @@ class TrendStat extends React.Component{
       <View>
         <View style={styles.container}>
           <Text style={styles.trend}>
-            {decodeURIComponent(this.props.clickedTrend).replace(/"/g,'').replace(/\+/g,' ')}
+            {this.props.clickedTrend ? decodeURIComponent(this.props.clickedTrend).replace(/"/g,'').replace(/\+/g,' ') : 'Calculating...'}
           </Text>
           <Text style={styles.trend}>
             {this.state.data ? Math.floor(this.state.data.sentiment * 1000) : 'Calculating ...'}

@@ -78,7 +78,8 @@ class App extends Component {
     var searchURL = (this.state.bodyView === 'user') ? 'rippl/' : 'getTrends/';
     //10.0.3.2
     //10.6.20.226
-    fetch('http://192.168.0.2:8000/' + searchURL + location, {
+    //192.168.0.2
+    fetch('http://10.6.20.226:8000/' + searchURL + location, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -100,7 +101,7 @@ class App extends Component {
     this.getData(0);
 
     setInterval( () => {
-      fetch('http://192.168.0.2:8000/trends', {
+      fetch('http://10.6.20.226:8000/trends', {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -128,7 +129,7 @@ class App extends Component {
     var handle = this.state.query;
 
     this.setState({query: ''});
-    fetch('http://192.168.0.2:8000/analyze/@' + handle, {
+    fetch('http://10.6.20.226:8000/analyze/@' + handle, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -147,14 +148,7 @@ class App extends Component {
   render() {
     return (
       <View>
-        <Image source={
-          (this.state.location === 0) ? (require('../img/world.jpg')) :
-          (this.state.location === 1) ? (require('../img/sf.jpg')) :
-          (this.state.location === 2) ? (require('../img/toronto.jpg')) :
-          (this.state.location === 3) ? (require('../img/nyc.jpg')) :
-          (this.state.location === 4) ? (require('../img/chicago.jpg')) :
-          (require('../img/austin.jpg'))
-        } style={styles.backgroundImage}/>
+
         <Text style={styles.title}>{location[this.state.location].name}</Text>
         {
           (this.state.pageView === 'home') ? (
@@ -163,6 +157,14 @@ class App extends Component {
               {location.map((loc) => {
                 return (
                 <View key={loc.id}>
+                  <Image source={
+                    (this.state.location === 0) ? (require('../img/world.jpg')) :
+                    (this.state.location === 1) ? (require('../img/sf.jpg')) :
+                    (this.state.location === 2) ? (require('../img/toronto.jpg')) :
+                    (this.state.location === 3) ? (require('../img/nyc.jpg')) :
+                    (this.state.location === 4) ? (require('../img/chicago.jpg')) :
+                    (require('../img/austin.jpg'))
+                  } style={styles.backgroundImage}/>
                   <StatsNav bodyView={this.state.bodyView} location={loc.name} formVal={this.state.query} getUserClick={this.queryUser} formChange={this.handleChange}/>
                   <StatsBody bodyView={this.state.bodyView} changeBody={this.changeBody} changeUser={this.changeUser} changeTrend={this.changeTrend} list={this.state.list}/>
                 </View>
@@ -213,10 +215,15 @@ var styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
+    flexDirection: 'row',
     resizeMode: 'stretch', // or 'stretch'
     zIndex: -1,
     height: 660,
     width: 420,
+    // marginTop: 0,
+    // marginBottom: 0,
+    // marginLeft: 0,
+    // marginRight: 0,
     position: 'absolute',
     left:     0,
     top:      0

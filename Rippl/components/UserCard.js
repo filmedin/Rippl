@@ -13,7 +13,7 @@ class StatsCard extends React.Component{
       <TouchableHighlight onPress={() => {this.props.changeUser(this.props.user.twitterHandle)}}>
         <View style={[styles.statCard]}>
           <Text style={[styles.name]}>
-            {this.props.user.twitterHandle}    
+            {this.props.user.twitterHandle ? this.props.user.twitterHandle : 'Calculating...'}    
           </Text>
           <Text style={[styles.score]}>
             {this.props.user.sentimentScore ? Math.floor(this.props.user.sentimentScore * 1000) : 'Calculating...'}

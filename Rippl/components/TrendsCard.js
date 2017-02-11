@@ -14,7 +14,7 @@ class TrendsCard extends React.Component{
       <TouchableHighlight onPress={() => {this.props.changeTrend(this.props.trend.trend)}}>
         <View style={[styles.statCard]}>
           <Text style={[styles.name]}>
-            {decodeURIComponent(this.props.trend.trend).replace(/"/g,'').replace(/\+/g,' ')}    
+            {this.props.trend.trend ? decodeURIComponent(this.props.trend.trend).replace(/"/g,'').replace(/\+/g,' ') : 'Calculating...'}    
           </Text>
           <Text style={[styles.score]}>
             {this.props.trend.numTweets}
