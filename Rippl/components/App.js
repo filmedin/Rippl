@@ -154,7 +154,11 @@ class App extends Component {
           (this.state.location === 2) ? (require('../img/toronto.jpg')) :
           (this.state.location === 3) ? (require('../img/nyc.jpg')) :
           (this.state.location === 4) ? (require('../img/chicago.jpg')) :
-          (require('../img/austin.jpg'))
+          (this.state.location === 5) ? (require('../img/austin.jpg')) :
+          (this.state.location === 6) ? (require('../img/sydney.jpg')) :
+          (this.state.location === 7) ? (require('../img/london.jpg')) :
+          (this.state.location === 8) ? (require('../img/dubai.jpg')) :
+          (require('../img/rio.jpg'))
         } style={styles.backgroundImage}/>
         <Text style={styles.title}>{location[this.state.location].name}</Text>
         {
@@ -198,7 +202,12 @@ var location = [
   {id: 2, name: 'Toronto', img:'toronto.jpg'},
   {id: 3, name: 'New York', img:'nyc.jpg'},
   {id: 4, name: 'Chicago', img:'chicago.jpg'},
-  {id: 5, name: 'Austin', img:'austin.jpg'}];
+  {id: 5, name: 'Austin', img:'austin.jpg'},
+  {id: 6, name: 'Sydney', img:'sydney.jpg'},
+  {id: 7, name: 'London', img:'london.jpg'},
+  {id: 8, name: 'Dubai', img:'dubai.jpg'},
+  {id: 9, name: 'Rio de Janiero', img:'rio.jpg'}
+  ];
 var styles = StyleSheet.create({
   title: {
     marginTop: (Platform.OS === 'ios') ? 20 : 0,
