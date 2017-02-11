@@ -48,7 +48,7 @@ class UserStat extends React.Component{
         </View>
         {this.state.data ? (
           <View><ScrollView style={[styles.scrollViewTrend]}>
-            {this.state.data.globalTweets.map((tweet, index) => {return (<View style={styles.textView}><Text style={styles.text}>@{tweet.user.screen_name}: {tweet.text}</Text></View>)}) }
+            {this.state.data.globalTweets.map((tweet, index) => {return (<View key={tweet.id} style={styles.textView}><Text style={styles.text}>@{tweet.user.screen_name}: {tweet.text}</Text></View>)}) }
           </ScrollView>
           {(Platform.OS === 'ios') ? (<TouchableHighlight style={styles.homeView} onPress={this.props.goHome}><Text style={styles.home}>Home</Text></TouchableHighlight>) : (<View></View>)}</View>
           ) : (<Text>Loading...</Text>)}
