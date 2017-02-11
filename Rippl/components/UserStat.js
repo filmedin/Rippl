@@ -19,7 +19,7 @@ class UserStat extends React.Component{
      that.props.goHome();
      return true;
     });
-    fetch('http://192.168.0.2:8000/ripplTrend/loc/' + this.props.location + '/trend/' + this.props.clickedUser, {
+    fetch('http://10.6.20.226:8000/ripplTrend/loc/' + this.props.location + '/trend/' + this.props.clickedUser, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -40,7 +40,7 @@ class UserStat extends React.Component{
       <View>
         <View style={styles.container}>
           <Text style={styles.trend}>
-            {decodeURIComponent(this.props.clickedUser).replace(/"/g,'').replace(/\+/g,' ')}
+            {this.props.clickedUser ? decodeURIComponent(this.props.clickedUser).replace(/"/g,'').replace(/\+/g,' ') : 'Calculating...'}
           </Text>
           <Text style={styles.trend}>
             {this.state.data ? Math.floor(this.state.data.sentiment * 1000) : 'Calculating ...'}
@@ -48,7 +48,7 @@ class UserStat extends React.Component{
         </View>
         {this.state.data ? (
           <View><ScrollView style={[styles.scrollViewTrend]}>
-            {this.state.data.globalTweets.map((tweet, index) => {return (<View style={styles.textView}><Text style={styles.text}>@{tweet.user.screen_name}: {tweet.text}</Text></View>)}) }
+            {this.state.data.globalTweets.map((tweet, index) => {return (<View key={tweet.id} style={styles.textView}><Text style={styles.text}>@{tweet.user.screen_name}: {tweet.text}</Text></View>)}) }
           </ScrollView>
           {(Platform.OS === 'ios') ? (<TouchableHighlight style={styles.homeView} onPress={this.props.goHome}><Text style={styles.home}>Home</Text></TouchableHighlight>) : (<View></View>)}</View>
           ) : (<Text>Loading...</Text>)}
