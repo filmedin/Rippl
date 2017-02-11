@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, TextInput, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
+import {Platform, View, TextInput, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import Button from 'react-native-button';
 
 class StatsNav extends React.Component{
@@ -26,29 +26,29 @@ class StatsNav extends React.Component{
 export default StatsNav;
 var styles = StyleSheet.create({
   container: {
-    flexDirection:'row', 
-    flexWrap:'wrap',   
+    flexDirection:'row',
+    flexWrap:'wrap',
     backgroundColor:'rgba(255,255,255,0)'
   },
   preHandle: {
-    height: 30, 
-    fontSize:20, 
-    top: 5, 
-    color:'#6D737B', 
+    height: (Platform.OS === 'ios') ? 32 : 30,
+    fontSize:(Platform.OS === 'ios') ? 30 : 20,
+    top: 5,
+    color:'#6D737B',
     left: 10
   },
   handle: {
-    width: 340, 
-    height: 45, 
-    fontSize: 22, 
-    textAlignVertical: 'top', 
-    color:'#6D737B', 
+    width: (Platform.OS === 'ios') ? 303 : 340,
+    height: 45,
+    fontSize: 22,
+    textAlignVertical: 'top',
+    color:'#6D737B',
     left: 10
   },
   handleSubmit: {
-    fontSize: 22, 
-    top: 5, 
-    left: 5, 
+    fontSize: 22,
+    top: 5,
+    left: 5,
     width: 40
   },
   search:  {
@@ -56,7 +56,7 @@ var styles = StyleSheet.create({
     height: 35
   },
   searchView:  {
-    top: 5,
+    top: (Platform.OS === 'ios') ? 6 : 5,
     left: 10
   }
 });
