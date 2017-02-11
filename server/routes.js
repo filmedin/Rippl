@@ -3,6 +3,7 @@ var controller = require('./controllers');
 module.exports = function(app, express) {
 
   app.get('/analyze/:handle', controller.getAnalysis);
+  app.get('/delete/:handle', controller.deleteHandle);
   app.get('/rippl/:locationId', controller.getScores);
   app.get('/trends', controller.updateTrends);
   app.get('/getTrends/:locationId', controller.getTrends);

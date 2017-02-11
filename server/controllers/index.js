@@ -24,7 +24,7 @@ var geocodes = [
 module.exports = {
   getAnalysis: function(req, res, next) {
     var twitterHandle = req.params.handle || '@BarackObama';
-    
+
     var globalTweets, globalTweetStrings, globalsentiment, globaluser;
     var promises = [];
 
@@ -108,7 +108,16 @@ module.exports = {
   getTrends: function(req, res, next) {
     Trend.findAll({where: {locationId: (req.params.locationId || 0)}})
     .then(trends => {res.status(200).json(trends);})
-    .catch(err => {res.status(404).end();});    
+    .catch(err => {res.status(404).end();});
+  },
+  deleteHandle: function(req, res, next) {
+    var handle = req.params.handle
+    Score.destroy({
+      where: {
+        twitterHandle: handle
+      }, force:true
+    })
+    res.end();
   }
 
 };

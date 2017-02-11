@@ -18,7 +18,7 @@ class StatsBody extends React.Component {
       <View style={styles.background}>
         {this.props.bodyView === 'user' ? (
             <ScrollView bounces={true} style={[styles.scrollViewUser]}>
-              {this.props.list.map((user, index) => <UserCard key={index} changeUser={this.props.changeUser} user={user}/>) }
+              {this.props.list.map((user, index) => <UserCard key={index} changeUser={this.props.changeUser} user={user} deleteUser={this.props.deleteUser}/>) }
             </ScrollView>
           ) : (
             <ScrollView style={[styles.scrollViewTrend]}>
@@ -34,10 +34,10 @@ class StatsBody extends React.Component {
 var styles = StyleSheet.create({
   scrollViewUser: {
     height: 520,
-  }, 
+  },
   scrollViewTrend: {
     height: 565,
-  }, 
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
