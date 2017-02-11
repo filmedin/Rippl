@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import {View, Text, TouchableHighlight, StyleSheet, Image} from 'react-native';
 import Swipeout from 'rc-swipeout/lib';
-// import { Col, Card } from 'react-materialize';
 
-  // var swipeoutBtns = [
-  //   {
-  //     text: 'Button'
-  //   }
-  // ]
 // This is the component that represents the cards holding data on each user
 class UserCard extends React.Component{
   constructor(props){
@@ -16,7 +10,7 @@ class UserCard extends React.Component{
   render(){
   	return (
       <View>
-      <Swipeout
+      <Swipeout style={styles.swipe}
         right={[
           {
             text: 'delete',
@@ -55,7 +49,7 @@ var styles = StyleSheet.create({
     // borderColor: 'white',
     margin: 2,
     padding: 10,
-    backgroundColor: 'rgba(255,255,255,0.3)',
+    // backgroundColor: 'rgba(255,255,255,0.3)',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between'
@@ -69,5 +63,8 @@ var styles = StyleSheet.create({
     alignSelf: 'flex-end',
     color: '#54575C',
     fontSize: 22
+  },
+  swipe:{
+    backgroundColor: 'rgba(255,255,255,0.3)'
   }
 });

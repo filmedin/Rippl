@@ -146,7 +146,7 @@ class App extends Component {
   deleteUser(handle) {
     var that = this;
     this.setState({query: ''});
-    fetch('http://127.0.0.1:8000/delete/' + handle, {
+    fetch('http://10.6.20.226:8000/delete/' + handle, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
