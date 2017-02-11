@@ -211,11 +211,11 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   backgroundImage: {
-    //flex: 1
-    //resizeMode: 'stretch' // or 'stretch'
+    flex: 1,
+    resizeMode: 'stretch', // or 'stretch'
     zIndex: -1,
-    height: 800,
-    width: 500,
+    height: 660,
+    width: 420,
     position: 'absolute',
     left:     0,
     top:      0
