@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import {AppRegistry, StyleSheet, Text, View, Image} from 'react-native';
+import {Platform, AppRegistry, StyleSheet, Text, View, Image} from 'react-native';
 import Swiper from 'react-native-swiper';
 import Tabs from 'react-native-tabs';
 
@@ -24,7 +24,7 @@ class App extends Component {
 
     this.state = {
       query: '',
-      list: [], 
+      list: [],
       clickedUser: '',
       clickedTrend: '',
       pageView: 'home',
@@ -152,13 +152,13 @@ class App extends Component {
           (this.state.location === 2) ? (require('../img/toronto.jpg')) :
           (this.state.location === 3) ? (require('../img/nyc.jpg')) :
           (this.state.location === 4) ? (require('../img/chicago.jpg')) :
-          (require('../img/austin.jpg')) 
+          (require('../img/austin.jpg'))
         } style={styles.backgroundImage}/>
         <Text style={styles.title}>{location[this.state.location].name}</Text>
         {
           (this.state.pageView === 'home') ? (
           <View style={styles.background}>
-            <Swiper height={590} loop={true} onMomentumScrollEnd={this.onMomentumScrollEnd}>
+            <Swiper height={(Platform.OS === 'ios') ? 575 :590} loop={true} onMomentumScrollEnd={this.onMomentumScrollEnd}>
               {location.map((loc) => {
                 return (
                 <View key={loc.id}>
@@ -198,14 +198,15 @@ var location = [
   {id: 5, name: 'Austin', img:'austin.jpg'}];
 var styles = StyleSheet.create({
   title: {
-    textAlign:'center', 
-    fontSize:50, 
+    marginTop: (Platform.OS === 'ios') ? 20 : 0,
+    textAlign:'center',
+    fontSize:50,
     color:'white',
     backgroundColor:'rgba(0,0,0,0.7)'
   },
   container: {
     flex: 1,
-    marginTop: 10,
+    marginTop: (Platform.OS === 'ios') ? 12  : 10,
     justifyContent: 'center',
     alignItems: 'center'
   },

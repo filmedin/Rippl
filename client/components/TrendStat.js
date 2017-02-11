@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {ScrollView, View, Text, BackAndroid, StyleSheet} from 'react-native';
+import {Platform, ScrollView, View, Text, BackAndroid, StyleSheet} from 'react-native';
 // import { Col, Row, Card, CardPanel } from 'react-materialize';
 
 
@@ -58,7 +58,7 @@ class TrendStat extends React.Component{
 var styles = StyleSheet.create({
   container: {
     backgroundColor: 'rgba(0,0,0,0.7)'
-    // flexDirection:'column', 
+    // flexDirection:'column',
     // flexWrap:'wrap',
     // justifyContent: 'space-between'
 
@@ -74,7 +74,7 @@ var styles = StyleSheet.create({
   textView: {
     borderTopColor: 'lightgrey',
     borderBottomColor: 'lightgrey',
-    borderWidth: 0.25,
+    borderWidth: (Platform.OS === 'ios') ? .5 : 0.25,
     padding: 15,
     backgroundColor: 'rgba(0,0,0,0.7)'
   },
