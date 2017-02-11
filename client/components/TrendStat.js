@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Platform, ScrollView, View, Text, BackAndroid, StyleSheet} from 'react-native';
+import {Platform, ScrollView, View, Text, TouchableHighlight, BackAndroid, StyleSheet} from 'react-native';
 // import { Col, Row, Card, CardPanel } from 'react-materialize';
 
 
@@ -45,10 +45,12 @@ class TrendStat extends React.Component{
           </Text>
         </View>
         {this.state.data ? (
-          <ScrollView style={[styles.scrollViewTrend]}>
+          <View><ScrollView style={[styles.scrollViewTrend]}>
             {this.state.data.globalTweets.map((tweet, index) => {return (<View style={styles.textView}><Text style={styles.text}>@{tweet.user.screen_name}: {tweet.text}</Text></View>)}) }
           </ScrollView>
+          {(Platform.OS === 'ios') ? (<TouchableHighlight style={styles.homeView} onPress={this.props.goHome}><Text style={styles.home}>Home</Text></TouchableHighlight>) : (<View></View>)}</View>
           ) : (<Text>Loading...</Text>)}
+
 
       </View>
     );
@@ -69,7 +71,7 @@ var styles = StyleSheet.create({
     color: 'white'
   },
   scrollViewTrend: {
-    height: 600
+    height: (Platform.OS === 'ios') ? 495 : 600
   },
   textView: {
     borderTopColor: 'lightgrey',
@@ -81,6 +83,18 @@ var styles = StyleSheet.create({
   text: {
     color: 'white',
     fontSize: 16
+  },
+  home: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: 'white'
+  },
+  homeView: {
+    borderWidth: .5,
+    padding: 10,
+    borderTopColor: 'lightgrey',
+    borderBottomColor: 'lightgrey',
+    backgroundColor: 'rgba(0,0,0,1)'
   }
 });
 
