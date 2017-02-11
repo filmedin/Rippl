@@ -41,6 +41,7 @@ class App extends Component {
     this.goHome = this.goHome.bind(this);
     this.changeBody = this.changeBody.bind(this);
     this.onMomentumScrollEnd = this.onMomentumScrollEnd.bind(this);
+    this.deleteUser = this.deleteUser.bind(this);
   }
   componentDidMount() {
     // navigator.geolocation.getCurrentPosition(
@@ -74,6 +75,8 @@ class App extends Component {
   // This function gets all the user data for user RipplMaster (default user),
   // stops the spinner animation, and if there is an error displays an error message.
   getData(location) {
+    console.log('##### in here!!!', location)
+
     var that = this;
     var searchURL = (this.state.bodyView === 'user') ? 'rippl/' : 'getTrends/';
     //10.0.3.2
@@ -124,7 +127,7 @@ class App extends Component {
   // This function gets tells the server to get the data for the a specified user,
   // starts the spinner animation, and if there is an error displays an error message.
   queryUser() {
-    this.setState({error: false});
+    // this.setState({error: false});
     var that = this;
     var handle = this.state.query;
 
@@ -136,14 +139,33 @@ class App extends Component {
         'Content-Type': 'application/json',
       }
     })
-    .then(data => {that.getData()})
+    .then(data => {this.getData(this.state.location)})
+    .catch(err => {
+      that.setState({error: true});
+      // console.log('errrrrrrrror')
+    });
+  }
+  //end of copied text
+
+  deleteUser(handle) {
+    var that = this;
+    // var handle = this.state.query;
+
+    this.setState({query: ''});
+    fetch('http://127.0.0.1:8000/delete/' + handle, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(data => {
+      that.getData(that.state.location);
+    })
     .catch(err => {
       that.setState({error: true});
     });
   }
-
-  //end of copied text
-
 
   render() {
     return (
@@ -170,7 +192,7 @@ class App extends Component {
                 <View key={loc.id}>
 
                   <StatsNav bodyView={this.state.bodyView} location={loc.name} formVal={this.state.query} getUserClick={this.queryUser} formChange={this.handleChange}/>
-                  <StatsBody bodyView={this.state.bodyView} changeBody={this.changeBody} changeUser={this.changeUser} changeTrend={this.changeTrend} list={this.state.list}/>
+                  <StatsBody bodyView={this.state.bodyView} changeBody={this.changeBody} changeUser={this.changeUser} changeTrend={this.changeTrend} list={this.state.list} deleteUser={this.deleteUser} goHome={this.goHome}/>
                 </View>
                 )
               })}
